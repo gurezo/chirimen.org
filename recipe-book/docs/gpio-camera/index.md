@@ -16,7 +16,7 @@
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // GPIO5のスイッチを押すと、Raspberry Pi Cameraで撮影し、ファイルに保存する
 
 // ライブラリ　pi-camera-connect　をまずインストールする必要があります。readmeを参照してください。
@@ -105,7 +105,7 @@ raspistill -v --width 640 --height 480 -o test.jpg
 
 [pi-camera-connect のリポジトリ](https://github.com/launchcodedev/pi-camera-connect)の readme と同じ内容ですが、オプションを加えてみました
 
-```javascript
+```
 import { StillCamera } from "pi-camera-connect";
 import * as fs from "fs";
 
@@ -124,7 +124,7 @@ runApp();
 
 dataURL を取得
 
-```javascript
+```
 import { StillCamera } from "pi-camera-connect";
 
 // Take still image and get dataURI

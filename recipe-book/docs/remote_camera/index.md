@@ -18,7 +18,7 @@
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Raspberry Pi Camera　リモートカメラ
 
 // ライブラリ　pi-camera-connect　をまずインストールする必要があります。readmeを参照してください。

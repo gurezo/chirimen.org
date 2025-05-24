@@ -10,13 +10,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/pca9685-pwm
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 import PCA9685_PWM from "@chirimen/pca9685-pwm";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

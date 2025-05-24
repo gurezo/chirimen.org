@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/sht30
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Remote Example5 - reciever
 // for CHIRIMEN with nodejs
 import { requestGPIOAccess } from "./node_modules/node-web-gpio/dist/index.js";

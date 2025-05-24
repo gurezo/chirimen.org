@@ -11,13 +11,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/veml6070
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import VEML6070 from "@chirimen/veml6070";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

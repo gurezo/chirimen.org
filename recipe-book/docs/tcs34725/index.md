@@ -14,13 +14,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/tcs34725
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import TCS34725 from "@chirimen/tcs34725";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

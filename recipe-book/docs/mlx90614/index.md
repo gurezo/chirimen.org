@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/mlx90614
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import MLX90614 from "@chirimen/mlx90614";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

@@ -16,7 +16,7 @@ GPIO ポート 5 にスイッチ、GPIO ポート 26 に抵抗と LED を繋ぎ�
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestGPIOAccess} from "./node_modules/node-web-gpio/dist/index.js";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 let port2;

@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/ens160
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 import ENS160 from "@chirimen/ens160";
 const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));

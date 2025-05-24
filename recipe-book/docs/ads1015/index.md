@@ -14,13 +14,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/ads1015
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import ADS1015 from "@chirimen/ads1015";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

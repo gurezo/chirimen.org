@@ -19,7 +19,7 @@
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // シリアルからGPSデータ受信
 import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';

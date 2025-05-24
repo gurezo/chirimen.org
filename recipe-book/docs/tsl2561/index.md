@@ -11,13 +11,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/grove-light
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import GROVELIGHT from "@chirimen/grove-light";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

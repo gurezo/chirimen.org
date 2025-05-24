@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/pcf8591
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import PCF8591 from "@chirimen/pcf8591";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

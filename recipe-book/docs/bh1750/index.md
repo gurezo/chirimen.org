@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/bh1750
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import BH1750 from "@chirimen/bh1750";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

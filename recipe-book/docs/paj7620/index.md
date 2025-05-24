@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/grove-gesture
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import PAJ7620 from "@chirimen/grove-gesture";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

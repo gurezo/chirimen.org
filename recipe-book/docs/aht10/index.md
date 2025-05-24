@@ -10,13 +10,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/aht10
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import AHT10 from "@chirimen/aht10";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

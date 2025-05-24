@@ -10,13 +10,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/grove-oled-display
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import OledDisplay from "@chirimen/grove-oled-display";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

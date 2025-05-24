@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/grove-touch
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import GroveTouch from "@chirimen/grove-touch";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

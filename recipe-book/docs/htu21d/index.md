@@ -11,13 +11,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/htu21d
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 import HTU21D from "@chirimen/htu21d";
 const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));

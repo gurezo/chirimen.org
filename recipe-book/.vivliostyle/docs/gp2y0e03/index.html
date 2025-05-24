@@ -53,43 +53,43 @@
             CHIRIMEN 用ドライバのインストール
           </h4>
           <pre
-            class="language-shell"
-          ><code class="language-shell"><span class="token function">npm</span> i @chirimen/gp2y0e03</code></pre>
+            class="language-text"
+          ><code class="language-text">npm i @chirimen/gp2y0e03</code></pre>
         </section>
         <section class="level4" aria-labelledby="サンプルコード-mainjs">
           <h4 id="サンプルコード-mainjs">サンプルコード (main.js)</h4>
           <pre
-            class="language-javascript"
-          ><code class="language-javascript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span>requestI2CAccess<span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"node-web-i2c"</span><span class="token punctuation">;</span>
-<span class="token keyword module">import</span> <span class="token constant">GP2Y0E03</span> <span class="token keyword module">from</span> <span class="token string">"@chirimen/gp2y0e03"</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">sleep</span> <span class="token operator">=</span> <span class="token parameter">msec</span> <span class="token arrow operator">=&gt;</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token arrow operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> msec<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            class="language-text"
+          ><code class="language-text">import {requestI2CAccess} from "node-web-i2c";
+import GP2Y0E03 from "@chirimen/gp2y0e03";
+const sleep = msec =&gt; new Promise(resolve =&gt; setTimeout(resolve, msec));
 
-<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+main();
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> i2cAccess <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">requestI2CAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> port <span class="token operator">=</span> i2cAccess<span class="token punctuation">.</span><span class="token property-access">ports</span><span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> sensor_unit <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GP2Y0E03</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> <span class="token number">0x40</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> sensor_unit<span class="token punctuation">.</span><span class="token method function property-access">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+async function main() {
+  try {
+    const i2cAccess = await requestI2CAccess();
+    const port = i2cAccess.ports.get(1);
+    const sensor_unit = new GP2Y0E03(port, 0x40);
+    await sensor_unit.init();
 
-    <span class="token keyword control-flow">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
-        <span class="token keyword">const</span> distance <span class="token operator">=</span> <span class="token keyword control-flow">await</span> sensor_unit<span class="token punctuation">.</span><span class="token method function property-access">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>distance <span class="token operator">!=</span> <span class="token keyword null nil">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"Distance:"</span> <span class="token operator">+</span> distance <span class="token operator">+</span> <span class="token string">"cm"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
-          <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"out of range"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">"READ ERROR:"</span> <span class="token operator">+</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-      <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">"GP2Y0E03 init error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+    while (1) {
+      try {
+        const distance = await sensor_unit.read();
+        if (distance != null) {
+          console.log("Distance:" + distance + "cm");
+        } else {
+          console.log("out of range");
+        }
+      } catch (err) {
+        console.error("READ ERROR:" + err);
+      }
+      await sleep(500);
+    }
+  } catch (err) {
+    console.error("GP2Y0E03 init error");
+  }
+}</code></pre>
         </section>
       </section>
     </section>

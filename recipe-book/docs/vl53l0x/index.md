@@ -10,13 +10,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/vl53l0x
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import VL53L0X from "@chirimen/vl53l0x";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

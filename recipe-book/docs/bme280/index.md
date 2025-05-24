@@ -10,13 +10,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/bme280
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import BME280 from "@chirimen/bme280";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

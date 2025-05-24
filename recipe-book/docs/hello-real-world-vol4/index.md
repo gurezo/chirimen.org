@@ -13,7 +13,7 @@
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestGPIOAccess} from "./node_modules/node-web-gpio/dist/index.js";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 

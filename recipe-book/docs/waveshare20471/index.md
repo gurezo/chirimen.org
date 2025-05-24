@@ -13,7 +13,7 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/bme280
 npm i @chirimen/icm20948
 npm i @chirimen/ltr390
@@ -23,7 +23,7 @@ npm i @chirimen/sgp40
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // webI2C
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 

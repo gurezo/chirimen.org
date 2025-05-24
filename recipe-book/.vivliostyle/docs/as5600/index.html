@@ -45,33 +45,33 @@
         <section class="level4" aria-labelledby="サンプルコード-mainjs">
           <h4 id="サンプルコード-mainjs">サンプルコード (main.js)</h4>
           <pre
-            class="language-javascript"
-          ><code class="language-javascript"><span class="token comment">// AS5600(磁気式角度センサ)を使う</span>
-<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> requestI2CAccess <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"./node_modules/node-web-i2c/index.js"</span><span class="token punctuation">;</span>
-<span class="token keyword module">import</span> <span class="token constant">AS5600</span> <span class="token keyword module">from</span> <span class="token string">"./as5600.js"</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">sleep</span> <span class="token operator">=</span> <span class="token parameter">msec</span> <span class="token arrow operator">=&gt;</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token arrow operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> msec<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            class="language-text"
+          ><code class="language-text">// AS5600(磁気式角度センサ)を使う
+import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
+import AS5600 from "./as5600.js";
+const sleep = msec =&gt; new Promise(resolve =&gt; setTimeout(resolve, msec));
 
-<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+main();
 
-<span class="token keyword">var</span> as5600<span class="token punctuation">;</span>
+var as5600;
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> i2cAccess <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">requestI2CAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> port <span class="token operator">=</span> i2cAccess<span class="token punctuation">.</span><span class="token property-access">ports</span><span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    as5600 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AS5600</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as5600<span class="token punctuation">.</span><span class="token method function property-access">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">var</span> stat <span class="token operator">=</span> <span class="token keyword control-flow">await</span> as5600<span class="token punctuation">.</span><span class="token method function property-access">getStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"stat:"</span> <span class="token punctuation">,</span> stat<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">startMeasurement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+async function main() {
+    const i2cAccess = await requestI2CAccess();
+    const port = i2cAccess.ports.get(1);
+    as5600 = new AS5600(port);
+    await as5600.init();
+    var stat = await as5600.getStatus();
+    console.log("stat:" , stat);
+    startMeasurement();
+}
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">startMeasurement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword control-flow">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> <span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">var</span> rawAngle <span class="token operator">=</span> <span class="token keyword control-flow">await</span> as5600<span class="token punctuation">.</span><span class="token method function property-access">getAngle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"rawA:"</span><span class="token punctuation">,</span>rawAngle<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+async function startMeasurement() {
+    for (; ;) {
+        var rawAngle = await as5600.getAngle();
+        console.log("rawA:",rawAngle);
+        await sleep(1000);
+    }
+}</code></pre>
         </section>
         <section class="level4" aria-labelledby="特記事項">
           <h4 id="特記事項">特記事項</h4>

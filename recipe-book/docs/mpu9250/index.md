@@ -11,13 +11,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/ak8963
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import MPU6500 from "@chirimen/mpu6500";
 import AK8963 from "@chirimen/ak8963";

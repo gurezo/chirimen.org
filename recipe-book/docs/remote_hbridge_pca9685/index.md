@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/pca9685-pwm
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Remote Example PCA9685PWM + HBridge - reciever
 // for CHIRIMEN with nodejs
 

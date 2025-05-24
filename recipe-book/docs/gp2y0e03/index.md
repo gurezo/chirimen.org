@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/gp2y0e03
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "node-web-i2c";
 import GP2Y0E03 from "@chirimen/gp2y0e03";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

@@ -48,59 +48,59 @@
             CHIRIMEN 用ドライバのインストール
           </h4>
           <pre
-            class="language-shell"
-          ><code class="language-shell"><span class="token function">npm</span> i @chirimen/as3935</code></pre>
+            class="language-text"
+          ><code class="language-text">npm i @chirimen/as3935</code></pre>
         </section>
         <section class="level4" aria-labelledby="サンプルコード-mainjs">
           <h4 id="サンプルコード-mainjs">サンプルコード (main.js)</h4>
           <pre
-            class="language-javascript"
-          ><code class="language-javascript"><span class="token comment">/* 各種ライブラリをインポート */</span>
-<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> requestGPIOAccess <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"./node_modules/node-web-gpio/dist/index.js"</span><span class="token punctuation">;</span> <span class="token comment">// WebGPIO </span>
-<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> requestI2CAccess <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"./node_modules/node-web-i2c/index.js"</span><span class="token punctuation">;</span> <span class="token comment">// WebI2C</span>
-<span class="token keyword module">import</span> <span class="token constant">AS3935</span> <span class="token keyword module">from</span> <span class="token string">"@chirimen/as3935"</span><span class="token punctuation">;</span> <span class="token comment">// AS3935</span>
-<span class="token keyword">const</span> <span class="token function-variable function">sleep</span> <span class="token operator">=</span> <span class="token parameter">msec</span> <span class="token arrow operator">=&gt;</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token arrow operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> msec<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            class="language-text"
+          ><code class="language-text">/* 各種ライブラリをインポート */
+import { requestGPIOAccess } from "./node_modules/node-web-gpio/dist/index.js"; // WebGPIO 
+import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js"; // WebI2C
+import AS3935 from "@chirimen/as3935"; // AS3935
+const sleep = msec =&gt; new Promise(resolve =&gt; setTimeout(resolve, msec));
 
-<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+main();
 
-<span class="token keyword">var</span> as3935<span class="token punctuation">;</span>
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">/* 雷センサー初期化 */</span>
-    <span class="token keyword">const</span> i2cAccess <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">requestI2CAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> ic2Port <span class="token operator">=</span> i2cAccess<span class="token punctuation">.</span><span class="token property-access">ports</span><span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    as3935 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AS3935</span><span class="token punctuation">(</span>ic2Port<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">set_indoors</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">set_noise_floor</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">calibrate</span><span class="token punctuation">(</span><span class="token number">0x0f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+var as3935;
+async function main() {
+    /* 雷センサー初期化 */
+    const i2cAccess = await requestI2CAccess();
+    const ic2Port = i2cAccess.ports.get(1);
+    as3935 = new AS3935(ic2Port);
+    await as3935.init();
+    await as3935.reset();
+    await sleep(100);
+    await as3935.set_indoors(true);
+    await as3935.set_noise_floor(0);
+    await as3935.calibrate(0x0f);
 
-    <span class="token comment">/* 雷センサーインタラプト用GPIO初期化 */</span>
-    <span class="token keyword">const</span> gpioAccess <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">requestGPIOAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> as3935_interruptPort <span class="token operator">=</span> gpioAccess<span class="token punctuation">.</span><span class="token property-access">ports</span><span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> as3935_interruptPort<span class="token punctuation">.</span><span class="token keyword module">export</span><span class="token punctuation">(</span><span class="token string">"in"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    as3935_interruptPort<span class="token punctuation">.</span><span class="token property-access">onchange</span> <span class="token operator">=</span> as3935_sens<span class="token punctuation">;</span>
+    /* 雷センサーインタラプト用GPIO初期化 */
+    const gpioAccess = await requestGPIOAccess();
+    const as3935_interruptPort = gpioAccess.ports.get(5);
+    await as3935_interruptPort.export("in");
+    as3935_interruptPort.onchange = as3935_sens;
 
-<span class="token punctuation">}</span>
+}
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">as3935_sens</span><span class="token punctuation">(</span><span class="token parameter">ev</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token property-access">value</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword control-flow">return</span> <span class="token punctuation">}</span>
-    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"interruptPort:"</span><span class="token punctuation">,</span> ev<span class="token punctuation">.</span><span class="token property-access">value</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">var</span> reason <span class="token operator">=</span> <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">get_interrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>reason <span class="token operator">==</span> <span class="token number">0x01</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"Noise level too high - adjusting"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">raise_noise_floor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> <span class="token keyword control-flow">else</span> <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>reason <span class="token operator">==</span> <span class="token number">0x04</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"Disturber detected - masking"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">set_mask_disturber</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> <span class="token keyword control-flow">else</span> <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>reason <span class="token operator">==</span> <span class="token number">0x08</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">var</span> now <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toLocaleString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">var</span> distance <span class="token operator">=</span> <span class="token keyword control-flow">await</span> as3935<span class="token punctuation">.</span><span class="token method function property-access">get_distance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Detect lightinig! It was </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>distance<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> Km away. (</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>now<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">) </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+async function as3935_sens(ev) {
+    if (ev.value == 0) { return }
+    console.log("interruptPort:", ev.value);
+    await sleep(10);
+    var reason = await as3935.get_interrupt();
+    if (reason == 0x01) {
+        console.log("Noise level too high - adjusting");
+        await as3935.raise_noise_floor();
+    } else if (reason == 0x04) {
+        console.log("Disturber detected - masking");
+        await as3935.set_mask_disturber(true);
+    } else if (reason == 0x08) {
+        var now = new Date().toLocaleString();
+        var distance = await as3935.get_distance();
+        console.log(`Detect lightinig! It was ${distance} Km away. (${now}) `);
+    }
+}</code></pre>
         </section>
         <section class="level4" aria-labelledby="特記事項">
           <h4 id="特記事項">特記事項</h4>

@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/pca9685
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Remote Example8 - reciever
 // for CHIRIMEN with nodejs
 

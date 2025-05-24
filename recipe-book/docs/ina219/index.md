@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/ina219
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import INA219 from "@chirimen/ina219";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

@@ -16,7 +16,7 @@ GPIO ポート 26 に接続します。
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Remote Example9 - reciever
 // for CHIRIMEN with nodejs
 

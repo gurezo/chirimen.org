@@ -17,13 +17,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/adt7410
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import ADT7410 from "@chirimen/adt7410";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

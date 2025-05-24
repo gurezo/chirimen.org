@@ -17,7 +17,7 @@
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // AS5600(磁気式角度センサ)を使う
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 import AS5600 from "./as5600.js";

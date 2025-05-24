@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/sht30
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Remote Example5 - reciever
 // for CHIRIMEN with nodejs
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";

@@ -12,13 +12,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/ht16k33
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 // Adafruit Mini 8x8 LED Matrix w/I2C Backpack
 // https://www.switch-science.com/products/1493 , https://www.adafruit.com/product/870
 // or

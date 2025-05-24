@@ -13,13 +13,13 @@
 
 #### CHIRIMEN 用ドライバのインストール
 
-```shell
+```
 npm i @chirimen/scd40
 ```
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
 import SCD40 from "@chirimen/scd40";
 const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));

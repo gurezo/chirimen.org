@@ -50,113 +50,113 @@
             CHIRIMEN 用ドライバのインストール
           </h4>
           <pre
-            class="language-shell"
-          ><code class="language-shell"><span class="token function">npm</span> i @chirimen/neopixel-i2c</code></pre>
+            class="language-text"
+          ><code class="language-text">npm i @chirimen/neopixel-i2c</code></pre>
         </section>
         <section class="level4" aria-labelledby="サンプルコード-mainjs">
           <h4 id="サンプルコード-mainjs">サンプルコード (main.js)</h4>
           <pre
-            class="language-javascript"
-          ><code class="language-javascript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> requestI2CAccess <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"./node_modules/node-web-i2c/index.js"</span><span class="token punctuation">;</span>
-<span class="token keyword module">import</span> <span class="token constant">NPIX</span> <span class="token keyword module">from</span> <span class="token string">"@chirimen/neopixel-i2c"</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">sleep</span> <span class="token operator">=</span> <span class="token parameter">msec</span> <span class="token arrow operator">=&gt;</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token arrow operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> msec<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            class="language-text"
+          ><code class="language-text">import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
+import NPIX from "@chirimen/neopixel-i2c";
+const sleep = msec =&gt; new Promise(resolve =&gt; setTimeout(resolve, msec));
 
-<span class="token keyword">const</span> neoPixels <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment">// LED個数</span>
+const neoPixels = 7; // LED個数
 
-<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+main();
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> i2cAccess <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">requestI2CAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> port <span class="token operator">=</span> i2cAccess<span class="token punctuation">.</span><span class="token property-access">ports</span><span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> npix <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NPIX</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> <span class="token number">0x41</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">init</span><span class="token punctuation">(</span>neoPixels<span class="token punctuation">)</span><span class="token punctuation">;</span>
+async function main() {
+    const i2cAccess = await requestI2CAccess();
+    const port = i2cAccess.ports.get(1);
+    const npix = new NPIX(port, 0x41);
+    await npix.init(neoPixels);
 
-    <span class="token keyword control-flow">await</span> <span class="token function">nPixTest1</span><span class="token punctuation">(</span>npix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    await nPixTest1(npix);
 
-    <span class="token keyword control-flow">await</span> <span class="token function">nPixTest2</span><span class="token punctuation">(</span>npix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    await nPixTest2(npix);
 
-    <span class="token keyword control-flow">await</span> <span class="token function">nPixTest3</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    await nPixTest3(npix, pattern4);
 
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+    await npix.setGlobal(0, 0, 0);
+}
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">nPixTest1</span><span class="token punctuation">(</span><span class="token parameter">npix</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">// 全LEDを同じ色にするケース</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setGlobal</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+async function nPixTest1(npix) {
+    // 全LEDを同じ色にするケース
+    await npix.setGlobal(10, 0, 0);
+    await sleep(200);
+    await npix.setGlobal(0, 10, 0);
+    await sleep(200);
+    await npix.setGlobal(0, 0, 10);
+    await sleep(200);
+    await npix.setGlobal(0, 20, 20);
+    await sleep(200);
+    await npix.setGlobal(20, 0, 20);
+    await sleep(200);
+    await npix.setGlobal(20, 20, 0);
+    await sleep(200);
+    await npix.setGlobal(20, 20, 20);
+    await sleep(200);
+    await npix.setGlobal(0, 0, 0);
+}
 
-<span class="token comment">// パターンはRRGGBB の並びで</span>
-<span class="token keyword">const</span> pattern0 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0xff0000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern3 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern4 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x00ff00</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern5 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x0000ff</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern6 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0xff0000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> pattern7 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0x000000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+// パターンはRRGGBB の並びで
+const pattern0 = [0xff0000, 0x00ff00, 0x0000ff, 0xff0000, 0x00ff00, 0x0000ff, 0xff0000];
+const pattern1 = [0x000000, 0x00ff00, 0x0000ff, 0xff0000, 0x00ff00, 0x0000ff, 0xff0000];
+const pattern2 = [0x000000, 0x000000, 0x0000ff, 0xff0000, 0x00ff00, 0x0000ff, 0xff0000];
+const pattern3 = [0x000000, 0x000000, 0x000000, 0xff0000, 0x00ff00, 0x0000ff, 0xff0000];
+const pattern4 = [0x000000, 0x000000, 0x000000, 0x000000, 0x00ff00, 0x0000ff, 0xff0000];
+const pattern5 = [0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x0000ff, 0xff0000];
+const pattern6 = [0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0xff0000];
+const pattern7 = [0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000];
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">setPattern</span><span class="token punctuation">(</span><span class="token parameter">npix<span class="token punctuation">,</span> pattern</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">// パターン設定</span>
-    <span class="token keyword">const</span> grbArray <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> color <span class="token keyword">of</span> pattern<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">const</span> r <span class="token operator">=</span> color <span class="token operator">&gt;&gt;</span> <span class="token number">16</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">;</span>
-        <span class="token keyword">const</span> g <span class="token operator">=</span> color <span class="token operator">&gt;&gt;</span> <span class="token number">8</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">;</span>
-        <span class="token keyword">const</span> b <span class="token operator">=</span> color <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">;</span>
-        grbArray<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        grbArray<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        grbArray<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword control-flow">await</span> npix<span class="token punctuation">.</span><span class="token method function property-access">setPixels</span><span class="token punctuation">(</span>grbArray<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+async function setPattern(npix, pattern) {
+    // パターン設定
+    const grbArray = [];
+    for (const color of pattern) {
+        const r = color &gt;&gt; 16 &amp; 0xff;
+        const g = color &gt;&gt; 8 &amp; 0xff;
+        const b = color &amp; 0xff;
+        grbArray.push(g);
+        grbArray.push(r);
+        grbArray.push(b);
+    }
+    await npix.setPixels(grbArray);
+}
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">nPixTest2</span><span class="token punctuation">(</span><span class="token parameter">npix</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">// パターンを変化させる</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern0<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern3<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern4<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern5<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern6<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> pattern7<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+async function nPixTest2(npix) {
+    // パターンを変化させる
+    await setPattern(npix, pattern0);
+    await sleep(200);
+    await setPattern(npix, pattern1);
+    await sleep(200);
+    await setPattern(npix, pattern2);
+    await sleep(200);
+    await setPattern(npix, pattern3);
+    await sleep(200);
+    await setPattern(npix, pattern4);
+    await sleep(200);
+    await setPattern(npix, pattern5);
+    await sleep(200);
+    await setPattern(npix, pattern6);
+    await sleep(200);
+    await setPattern(npix, pattern7);
+}
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">nPixTest3</span><span class="token punctuation">(</span><span class="token parameter">npix<span class="token punctuation">,</span> pattern</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">// パターンを流す</span>
-    <span class="token keyword control-flow">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">30</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">const</span> p <span class="token operator">=</span> i <span class="token operator">%</span> pattern<span class="token punctuation">.</span><span class="token property-access">length</span><span class="token punctuation">;</span>
-        <span class="token keyword">const</span> spattern <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> px <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> px <span class="token operator">&lt;</span> pattern<span class="token punctuation">.</span><span class="token property-access">length</span><span class="token punctuation">;</span> px<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">const</span> pp <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> px<span class="token punctuation">)</span> <span class="token operator">%</span> pattern<span class="token punctuation">.</span><span class="token property-access">length</span><span class="token punctuation">;</span>
-            spattern<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>pattern<span class="token punctuation">[</span>pp<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>spattern<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">await</span> <span class="token function">setPattern</span><span class="token punctuation">(</span>npix<span class="token punctuation">,</span> spattern<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword control-flow">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+async function nPixTest3(npix, pattern) {
+    // パターンを流す
+    for (let i = 0; i &lt; 30; i++) {
+        const p = i % pattern.length;
+        const spattern = [];
+        for (let px = 0; px &lt; pattern.length; px++) {
+            const pp = (i + px) % pattern.length;
+            spattern.push(pattern[pp]);
+        }
+        console.log(spattern);
+        await setPattern(npix, spattern);
+        await sleep(200);
+    }
 
-<span class="token punctuation">}</span></code></pre>
+}</code></pre>
         </section>
       </section>
     </section>

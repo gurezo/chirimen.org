@@ -17,7 +17,7 @@ npm i @chirimen/ads1x15
 
 #### サンプルコード (main.js)
 
-```javascript
+```
 import {requestI2CAccess} from "./node_modules/node-web-i2c/index.js";
 import ADS1X15 from "@chirimen/ads1x15";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
